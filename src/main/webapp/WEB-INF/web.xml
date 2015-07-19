@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
+
+    <display-name>File Mgt Service</display-name>
+
+    <!--Auto scan REST service -->
+    <context-param>
+        <param-name>resteasy.scan</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>uploadHome</param-name>
+        <param-value>/ttm/upload</param-value>
+    </context-param>
+    <!--
+    ********************************************************************************
+        SERVLET DEFINITIONS
+    ********************************************************************************
+    -->
+    <!--User Service Related-->
+    <servlet>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>resources-servlet</servlet-name>
+        <servlet-class>
+            com.services.filemgt.Initializer
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <!--
+    ********************************************************************************
+        SERVLET MAPPING DEFINITIONS
+    ********************************************************************************
+    -->
+    <!--User Service Related-->
+    <servlet-mapping>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
