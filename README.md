@@ -1,9 +1,10 @@
 # FileService
-File service which supports upload files/images, generate thumbnails for images and download images/files using RESTful service.
+File service which supports upload files/images, generate thumbnails for images and download images/files using RESTful service.<br>
 Now this supports following features.
-1. Upload images
-2. Generate thumbnails from the uploaded images
-3. Upload any file type
-4. Download images / thumbnails
-5. Download pdf / any file type 
-
+<ol>
+<li>Upload images</li>
+<li>Generate thumbnails from the uploaded images</li>
+<li>Upload any file type</li>
+<li>Download images / thumbnails</li>
+<li>Download pdf / any file type </li>
+</ol>
