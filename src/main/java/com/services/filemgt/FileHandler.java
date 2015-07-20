@@ -45,7 +45,6 @@ public class FileHandler {
         String path = Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_USER_PROFILE_IMAGES;
         File file = new File(path + fileName);
 
-        //System.out.println(">> Upload Path: " + path + ", " + fileName);
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -107,8 +106,25 @@ public class FileHandler {
             return file;
     }
 
+    public File getPDFFile(String fileName) {
+        File file = new File(Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_DATA_FILES + fileName + ".pdf");
+
+        if (!file.exists())
+            return null;
+        else
+            return file;
+    }
+
+    public File getFile(String fileName, String fileExtension) {
+        File file = new File(Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_DATA_FILES + fileName + "." + fileExtension);
+
+        if (!file.exists())
+            return null;
+        else
+            return file;
+    }
+
     public File getProfileImage(String userName) {
-//        System.out.println("getProfileImage> " + userName);
         File file = new File(Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_USER_PROFILE_IMAGES + userName + ".jpg");
 
         if (!file.exists())

@@ -13,9 +13,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 
@@ -132,7 +131,57 @@ public class FileService {
                     Constants.STATUS_FAILED, "Profile image not found!"));
         } else {
             response = Response.ok((Object) file);
-            response.header("Content-Disposition", "attachment; filename=image_from_server.png");
+            response.header("Content-Disposition", "attachment; filename=" + name + ".jpg");
+        }
+        return response.build();
+    }
+
+    @GET
+    @Path("/data/{name}/pdf")
+    @Produces("application/pdf")
+    public Response getPDFFile(@PathParam("name") String name) {
+        Response.ResponseBuilder response = null;
+        File file = FileHandler.getReference().getPDFFile(name);
+
+        if (file == null) {
+            response = Response.ok(SharedMethods.generateJSONStatusMessage(FileServiceStatus.READ_STATUS_FILE_NOT_FOUND,
+                    Constants.STATUS_FAILED, "Profile image not found!"));
+        } else {
+            response = Response.ok((Object) file);
+            response.header("Content-Disposition", "attachment; filename=" + name + ".pdf");
+        }
+        return response.build();
+    }
+
+    @GET
+    @Path("/data/{name}/{extension}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFile(@PathParam("name") String name, @PathParam("extension") String extension) {
+        Response.ResponseBuilder response = null;
+        File file = FileHandler.getReference().getFile(name, extension);
+
+        if (file == null) {
+            response = Response.ok(SharedMethods.generateJSONStatusMessage(FileServiceStatus.READ_STATUS_FILE_NOT_FOUND,
+                    Constants.STATUS_FAILED, "File not found!"));
+        } else {
+            try {
+                final InputStream is = new FileInputStream(file);
+                StreamingOutput stream = new StreamingOutput() {
+                    public void write(OutputStream output) throws IOException, WebApplicationException {
+                        try {
+                            output.write(IOUtils.toByteArray(is));
+                        } catch (Exception e) {
+                            throw new WebApplicationException(e);
+                        }
+                    }
+                };
+
+                return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM).header("content-disposition", "attachment; filename=" + name + "." + extension).build();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                response = Response.ok(SharedMethods.generateJSONStatusMessage(FileServiceStatus.READ_STATUS_FILE_NOT_FOUND,
+                        Constants.STATUS_FAILED, "File not found!"));
+            }
         }
         return response.build();
     }
