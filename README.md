@@ -8,3 +8,7 @@ Now this supports following features.
 <li>Download images / thumbnails</li>
 <li>Download pdf / any file type </li>
 </ol>
+
+<br>
+# TODO
+Add multi part upload / download
