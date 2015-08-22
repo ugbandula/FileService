@@ -6,7 +6,6 @@ import com.services.filemgt.shared.SharedMethods;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,10 +22,18 @@ public class FileHandler {
         this.selfRef = this;
     }
 
-    public String writeFile(byte[] content, String fileName) throws IOException {
-        String path = Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_DATA_FILES;
-        File file = new File(path + fileName);
+    public String writeFile(byte[] content, String filePath) throws IOException {
+        String[] fileDate = filePath.split("_");
+        String rootFolder = fileDate[0];
+        String fileName   = fileDate[1];
 
+        String path = Initializer.getSelfRef().getUploadHome() + Constants.DIRECTORY_DATA_FILES;
+        File file = new File(path + rootFolder);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
+        file = new File(path + rootFolder + File.separator + fileName);
         if (!file.exists()) {
             file.createNewFile();
         }

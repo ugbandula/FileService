@@ -1,12 +1,13 @@
 package com.services.filemgt.services;
 
 import com.services.filemgt.FileHandler;
-import com.services.filemgt.Initializer;
 import com.services.filemgt.enums.FileServiceStatus;
 import com.services.filemgt.exception.ServiceException;
 import com.services.filemgt.shared.Constants;
 import com.services.filemgt.shared.SharedMethods;
 import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.*;
@@ -17,9 +18,6 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
-
-import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 /**
  * Created by Bandula Gamage on 19/07/2015.
@@ -194,6 +192,10 @@ public class FileService {
      * }
      **/
     private String getFileName(MultivaluedMap<String, String> header) {
+//        Object[] keys = header.keySet().toArray();
+//        for (Object key: keys) {
+//            System.out.println("Header >> Key: " + key + ", Value: " + header.get(key));
+//        }
         String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
 
         for (String filename : contentDisposition) {
