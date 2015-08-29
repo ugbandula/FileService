@@ -12,3 +12,4 @@ Now this supports following features.
 <br>
 # TODO
 Add multi part upload / download
+Add security using Spring security
